@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { FiPlus, FiCalendar, FiUser, FiMapPin, FiCheck, FiClock } from 'react-icons/fi';
+import { FiPlus, FiCalendar, FiUser, FiMapPin, FiCheck, FiClock, FiPackage } from 'react-icons/fi';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/contexts/AuthContext';
 import { useClientVisits } from '@/hooks/useClientVisits';
 import { VisitEntryForm } from './VisitEntryForm';
 import { VisitHistory } from './VisitHistory';
@@ -11,8 +10,7 @@ type DashboardView = 'overview' | 'new-visit' | 'history';
 
 export function Dashboard() {
   const [currentView, setCurrentView] = useState<DashboardView>('overview');
-  const { user, logout } = useAuth();
-  const { visits } = useClientVisits(user?.id);
+  const { visits } = useClientVisits();
 
   const recentVisits = visits.slice(0, 3);
   const submittedCount = visits.filter(v => v.status === 'submitted').length;
@@ -38,22 +36,12 @@ export function Dashboard() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center shadow-button">
-                <FiUser className="w-5 h-5 text-primary-foreground" />
+                <FiPackage className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
                 <h1 className="text-lg font-semibold text-foreground">Marketing Portal</h1>
                 <p className="text-sm text-muted-foreground">Client Visit Management</p>
               </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="text-sm font-medium text-foreground">{user?.name}</p>
-                <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
-              </div>
-              <Button variant="outline" onClick={logout} size="sm">
-                Sign Out
-              </Button>
             </div>
           </div>
         </div>
@@ -64,9 +52,9 @@ export function Dashboard() {
         {/* Welcome Section */}
         <div className="mb-8">
           <div className="bg-gradient-primary text-primary-foreground rounded-2xl p-6 shadow-soft">
-            <h2 className="text-2xl font-bold mb-2">Welcome back, {user?.name}!</h2>
+            <h2 className="text-2xl font-bold mb-2">Welcome to Marketing Portal!</h2>
             <p className="text-primary-foreground/80 mb-4">
-              Ready to log your client visits? Track your meetings and deals efficiently.
+              Track your client visits and deals efficiently. Log meetings, products, and rates all in one place.
             </p>
             <Button 
               variant="premium" 

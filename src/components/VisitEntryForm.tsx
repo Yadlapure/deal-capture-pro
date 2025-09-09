@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/contexts/AuthContext';
 import { useClientVisits } from '@/hooks/useClientVisits';
 import { useToast } from '@/hooks/use-toast';
 import { Product } from '@/types';
@@ -15,7 +14,6 @@ interface VisitEntryFormProps {
 }
 
 export function VisitEntryForm({ onBack, onSuccess }: VisitEntryFormProps) {
-  const { user } = useAuth();
   const { addVisit } = useClientVisits();
   const { toast } = useToast();
   
@@ -93,8 +91,7 @@ export function VisitEntryForm({ onBack, onSuccess }: VisitEntryFormProps) {
         businessLocation: businessLocation.trim(),
         date,
         products: validProducts,
-        marketingPersonId: user!.id,
-        marketingPersonName: user!.name,
+        marketingPersonName: 'Marketing Team',
         status: 'draft',
       });
 
@@ -133,8 +130,7 @@ export function VisitEntryForm({ onBack, onSuccess }: VisitEntryFormProps) {
         businessLocation: businessLocation.trim(),
         date,
         products: validProducts,
-        marketingPersonId: user!.id,
-        marketingPersonName: user!.name,
+        marketingPersonName: 'Marketing Team',
         status: 'submitted',
         submittedAt: new Date().toISOString(),
       });

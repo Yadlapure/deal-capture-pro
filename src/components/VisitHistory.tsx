@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useAuth } from '@/contexts/AuthContext';
 import { useClientVisits } from '@/hooks/useClientVisits';
 import { ClientVisit } from '@/types';
 
@@ -13,8 +12,7 @@ interface VisitHistoryProps {
 }
 
 export function VisitHistory({ onBack }: VisitHistoryProps) {
-  const { user } = useAuth();
-  const { visits } = useClientVisits(user?.id);
+  const { visits } = useClientVisits();
   const [selectedVisit, setSelectedVisit] = useState<ClientVisit | null>(null);
   const [filterStatus, setFilterStatus] = useState<'all' | 'submitted' | 'draft'>('all');
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ClientVisit } from '@/types';
 
-export function useClientVisits(marketingPersonId?: string) {
+export function useClientVisits() {
   const [visits, setVisits] = useState<ClientVisit[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -10,13 +10,10 @@ export function useClientVisits(marketingPersonId?: string) {
     const storedVisits = localStorage.getItem('clientVisits');
     if (storedVisits) {
       const allVisits: ClientVisit[] = JSON.parse(storedVisits);
-      const filteredVisits = marketingPersonId 
-        ? allVisits.filter(visit => visit.marketingPersonId === marketingPersonId)
-        : allVisits;
-      setVisits(filteredVisits);
+      setVisits(allVisits);
     }
     setIsLoading(false);
-  }, [marketingPersonId]);
+  }, []);
 
   const addVisit = (visit: Omit<ClientVisit, 'id'>) => {
     const newVisit: ClientVisit = {
@@ -28,9 +25,7 @@ export function useClientVisits(marketingPersonId?: string) {
     setVisits(updatedVisits);
     
     // Save to localStorage
-    const allVisits = JSON.parse(localStorage.getItem('clientVisits') || '[]');
-    allVisits.push(newVisit);
-    localStorage.setItem('clientVisits', JSON.stringify(allVisits));
+    localStorage.setItem('clientVisits', JSON.stringify(updatedVisits));
     
     return newVisit;
   };
@@ -42,11 +37,7 @@ export function useClientVisits(marketingPersonId?: string) {
     setVisits(updatedVisits);
     
     // Update localStorage
-    const allVisits: ClientVisit[] = JSON.parse(localStorage.getItem('clientVisits') || '[]');
-    const allUpdatedVisits = allVisits.map(visit =>
-      visit.id === visitId ? { ...visit, ...updates } : visit
-    );
-    localStorage.setItem('clientVisits', JSON.stringify(allUpdatedVisits));
+    localStorage.setItem('clientVisits', JSON.stringify(updatedVisits));
   };
 
   const submitVisit = (visitId: string) => {
